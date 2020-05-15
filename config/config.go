@@ -57,6 +57,8 @@ type (
 		BlockDiffThreshold    int64    `mapstructure:"block_diff_threshold"`
 		EnableTelegramAlerts  string   `mapstructure:"enable_telegram_alerts"`
 		EnableEmailAlerts     string   `mapstructure:"enable_email_alerts"`
+		DaemonName            string   `mapstructure:"daemon_name"`
+		ClientName            string   `mapstructure:"clinet_name"`
 	}
 )
 

@@ -323,12 +323,26 @@ type (
 	// UnconfirmedTxns struct which holds the parameters of unconfirmed txns
 	UnconfirmedTxns struct {
 		Jsonrpc string `json:"jsonrpc"`
-		ID      string `json:"id"`
-		Result  struct {
+		// ID      string `json:"id"`
+		Result struct {
 			NTxs       string      `json:"n_txs"`
 			Total      string      `json:"total"`
 			TotalBytes string      `json:"total_bytes"`
 			Txs        interface{} `json:"txs"`
+		} `json:"result"`
+	}
+
+	// AkashSelfDelegationBalance
+	AkashSelfDelegationBalance struct {
+		Height string `json:"height"`
+		Result struct {
+			DelegatorAddress string `json:"delegator_address"`
+			ValidatorAddress string `json:"validator_address"`
+			Shares           string `json:"shares"`
+			Balance          struct {
+				Denom  string `json:"denom"`
+				Amount string `json:"amount"`
+			} `json:"balance"`
 		} `json:"result"`
 	}
 )

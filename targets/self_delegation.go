@@ -22,14 +22,33 @@ func GetSelfDelegation(ops HTTPOptions, cfg *config.Config, c client.Client) {
 		return
 	}
 
-	var delegationResp SelfDelegation
-	err = json.Unmarshal(resp.Body, &delegationResp)
-	if err != nil {
-		log.Printf("Error: %v", err)
-		return
+	var selfDelegationBal string
+	var balanceDeamon string
+
+	if cfg.DaemonName == "akashd" {
+		var delegationResp AkashSelfDelegationBalance
+		err = json.Unmarshal(resp.Body, &delegationResp)
+		if err != nil {
+			log.Printf("Error: %v", err)
+			return
+		}
+
+		selfDelegationBal = delegationResp.Result.Balance.Amount
+		balanceDeamon = delegationResp.Result.Balance.Denom
+
+	} else {
+		var delegationResp SelfDelegation
+		err = json.Unmarshal(resp.Body, &delegationResp)
+		if err != nil {
+			log.Printf("Error: %v", err)
+			return
+		}
+
+		selfDelegationBal = delegationResp.Result.Balance
+		balanceDeamon = "umuon"
 	}
 
-	addressBalance := convertToCommaSeparated(delegationResp.Result.Balance) + "umuon"
+	addressBalance := convertToCommaSeparated(selfDelegationBal) + balanceDeamon
 	_ = writeToInfluxDb(c, bp, "vcf_self_delegation_balance", map[string]string{}, map[string]interface{}{"balance": addressBalance})
 	log.Printf("Address Balance: %s", addressBalance)
 }

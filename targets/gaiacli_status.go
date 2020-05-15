@@ -19,7 +19,7 @@ func GetGaiaCliStatus(_ HTTPOptions, cfg *config.Config, c client.Client) {
 	}
 	var pts []*client.Point
 
-	cmd := exec.Command("gaiacli", "status")
+	cmd := exec.Command(cfg.ClientName, "status")
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Printf("Error executing cmd gaiacli status")
